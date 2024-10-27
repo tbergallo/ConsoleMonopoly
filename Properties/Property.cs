@@ -11,10 +11,9 @@ namespace ConsoleMonopolyAutomate.Properties
     {
         public string Name { get; private set; }
         public string Type { get; private set; }
-        public int Value { get; private set; }
         public bool Morgaged { get; private set; }
-        public int Owner { get; private set; }
-        public int CostBuy { get; private set; }
+        public virtual int Owner { get; set; }
+        public virtual int CostBuy { get; set; }
 
         public Property(string name, string type)
         {
@@ -55,5 +54,19 @@ namespace ConsoleMonopolyAutomate.Properties
             player.Money -= this.CostBuy;
             player.Properties.Add(this);
         }
+        internal void Morgage(Player player)
+        {
+            int morgage = this.CostBuy / 2;
+            player.Money += morgage;
+        }
+        internal void PayMorgage(Player player)
+        {
+            int morgage = (this.CostBuy / 2);
+            float morgagePayment = (float)(morgage + (morgage * 0.1));
+            //cast(morgagePayment);
+            //player.Money -= morgagePayment;
+
+        }
+
     }
 }

@@ -50,6 +50,7 @@ namespace ConsoleMonopolyAutomate
 
                     // Comenzamos pruebas arrojando dados hasta que se compren todas las propiedades
                     int dice_roll = game.rollDice();
+                    current_player.last_dice_roll = dice_roll;
 
                     Console.WriteLine($"Player {current_player.Player_number} rolled a {dice_roll}!");
                     current_player.Position = dice_roll + current_player.Position;

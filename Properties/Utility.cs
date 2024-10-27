@@ -9,9 +9,9 @@ namespace ConsoleMonopolyAutomate.Properties
 {
     internal class Utility : Property
     {
-        public int Owner { set; get; }
+        public override int Owner { set; get; }
       
-        public int CostBuy { get; set; }
+        public override int CostBuy { get; set; }
 
         public Utility(string name, string type, int cost_buy = 150, int owner = -1) : base(name, type)
         {
@@ -19,25 +19,58 @@ namespace ConsoleMonopolyAutomate.Properties
             CostBuy = cost_buy;
         }
 
-        public int CalculatePayment(int dice, int utilitiesOwned)
+        public int TtotalUtilityPayment(Player player)
         {
-            if (utilitiesOwned == 1)
+            int diceRoll = player.last_dice_roll;
+            if (player.NumberOfUtilitiesOwned == 1)
             {
-                return dice * 4;
+                return diceRoll * 4;
             }
             else
             {
-                return dice * 10;
+                return diceRoll * 10;
             }
+        }
+        public void RentPayment(Player owner, Player renter)
+        {
+            int rent = this.TtotalUtilityPayment(owner);
+            renter.Money -= rent;
+            owner.Money += rent;
         }
         public override void BuyProperty(Player player)
         {
             this.Owner = player.Player_number;
             player.Money -= this.CostBuy;
+            player.NumberOfUtilitiesOwned++;
         }
         public override void PropertyAction(Player player, Player[] players)
         {
-            base.PropertyAction(player, players);
+            if (this.Owner == -1)
+            {
+                //Eventualmente, agregar tomador de decision si compra o no.
+                if (player.Money >= this.CostBuy)
+                {
+                    Console.WriteLine($"Nobody owns {this.Name} so you buy it for ${this.CostBuy}");
+                    this.BuyProperty(player);
+                    Console.WriteLine($"You now have ${player.Money}");
+                }
+                else
+                {
+                    Console.WriteLine("You do not have enough money to buy it.");
+                }
+            }
+            else if (this.Owner == player.Player_number)
+            {
+                Console.WriteLine("The property is yours!");
+            }
+            else
+            {
+                Player owner = players[this.Owner - 1];
+                Console.WriteLine($"The property is owned by player {this.Owner}");
+                Console.WriteLine($"You must pay him ${this.TtotalUtilityPayment(owner)}");
+                this.RentPayment(players[this.Owner - 1], player);
+                Console.WriteLine($"The owner, {players[this.Owner - 1].Player_number} now has {players[this.Owner - 1].Money}");
+            }
         }
     }
 }

@@ -9,10 +9,9 @@ namespace ConsoleMonopolyAutomate.Properties
 {
     internal class Train : Property
     {
-        public int Owner { get; set; }
-        public int CostBuy { get; set; }
+        public override int Owner { get; set; }
+        public override int CostBuy { get; set; }
         public int[] MustPay { get; set; }
-
 
         public Train(string name, string type, int costBuy = 200, int owner = -1) : base(name, type)
         {
@@ -26,11 +25,12 @@ namespace ConsoleMonopolyAutomate.Properties
             int ticket = MustPay[owner.NumberOfTrainsOwned-1];
             return ticket;
         }
-        /*public override void BuyProperty(Player player)
+        public override void BuyProperty(Player player)
         {
             this.Owner = player.Player_number;
             player.Money -= this.CostBuy;
-        }*/
+            player.NumberOfTrainsOwned++;
+        }
         public void RentPayment(Player owner, Player renter)
         {
             int rent = this.TotalRent(owner);
@@ -45,7 +45,7 @@ namespace ConsoleMonopolyAutomate.Properties
                 //Eventualmente, agregar tomador de decision si compra o no.
                 if (player.Money >= this.CostBuy)
                 {
-                    Console.WriteLine($"Nobody owns {this.Name} so you buy it for {this.CostBuy}");
+                    Console.WriteLine($"Nobody owns {this.Name} so you buy it for ${this.CostBuy}");
                     this.BuyProperty(player);
                     Console.WriteLine($"You now have ${player.Money}");
                 }
@@ -62,7 +62,7 @@ namespace ConsoleMonopolyAutomate.Properties
             {
                 Player owner = players[this.Owner - 1];
                 Console.WriteLine($"The property is owned by player {this.Owner}");
-                Console.WriteLine($"You must pay him {this.TotalRent(owner)}");
+                Console.WriteLine($"You must pay him ${this.TotalRent(owner)}");
                 this.RentPayment(players[this.Owner - 1], player);
                 Console.WriteLine($"The owner, {players[this.Owner - 1].Player_number} now has {players[this.Owner - 1].Money}");
             }

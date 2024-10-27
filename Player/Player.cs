@@ -10,12 +10,12 @@ using System.Xml.Linq;
 namespace ConsoleMonopolyAutomate.Players
 {
     internal class Player
-    { 
-    public int Player_number { get; set; }
-    public int ThroughGo {  get; set; }
-    
-    private int position;
-    public int Position 
+    {
+        public int Player_number { get; set; }
+        public int ThroughGo { get; set; }
+
+        private int position;
+        public int Position
         {
             get => position;
             set
@@ -29,26 +29,20 @@ namespace ConsoleMonopolyAutomate.Players
                 position = value % 36;
             }
         }
-    public int Money { get; set; }
-    public List<Property> Properties { get; set; } = new List<Property>();
-    public int last_dice_roll { get; set; }
-    public int NumberOfTrainsOwned { get; set; }
-    public int NumberOfUtilitiesOwned { get; set; }
+        public int Money { get; set; }
+        public List<Property> Properties { get; set; } = new List<Property>();
+        public int last_dice_roll { get; set; }
+        public int NumberOfTrainsOwned { get; set; }
+        public int NumberOfUtilitiesOwned { get; set; }
 
-    public Player(int player_number = -1, int position = 0, int money = 2000, List<Property> properties = null, int last_dice_roll = -1)
-    {
-        Player_number = player_number;
-        Position = position;
-        Money = money;
-        Properties = properties ?? new List<Property>();
-        NumberOfTrainsOwned = 0;
-        NumberOfUtilitiesOwned = 0;
-    }
-    internal void Morgage(Property property)
+        public Player(int player_number = -1, int position = 0, int money = 2000, List<Property> properties = null, int last_dice_roll = -1)
         {
-            int morgage = property.Value;
-            this.Money =+ morgage;
+            Player_number = player_number;
+            Position = position;
+            Money = money;
+            Properties = properties ?? new List<Property>();
+            NumberOfTrainsOwned = 0;
+            NumberOfUtilitiesOwned = 0;
         }
-
     }
 }
