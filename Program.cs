@@ -90,8 +90,11 @@ namespace ConsoleMonopolyAutomate
                 Console.WriteLine($"Terminó la ronda {i}");
                 Console.WriteLine("");
                 i++;
+                game.CheckAllPropertiesSold(board);
             }
             game.PrintStats(players);
+            Console.WriteLine();
+            game.PrintUnsoldProperties(board);
         }
     }
 }

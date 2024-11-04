@@ -19,7 +19,7 @@ namespace ConsoleMonopolyAutomate.GameMechanics
             //Console.WriteLine("Set number of players");
             //this.NumberOfPlayers = Convert.ToInt32(Console.ReadLine());
             this.NumberOfPlayers = 3;
-            this.NumberOfRounds = 20;
+            this.NumberOfRounds = 100;
 
         }
         public void StartingGame()
@@ -133,5 +133,37 @@ namespace ConsoleMonopolyAutomate.GameMechanics
                 Console.WriteLine("The properties are: " + string.Join(", ", player.Properties));
             }
         }
+        public void CheckAllPropertiesSold(Property[] board)
+        {
+            bool allSold = board
+                .Where(p => p is Street || p is Train || p is Utility) // Select relevant property types
+                .All(p => p.Owner != -1);  // Ensure all have owners
+
+            if (allSold)
+            {
+                Console.WriteLine("All properties have been sold. Terminating the game.");
+                Environment.Exit(0);  // Stop the program
+            }
+        }
+        public void PrintUnsoldProperties(Property[] board)
+        {
+            var unsoldProperties = board
+                .Where(p => p.Owner == -1) // Filter properties that are unsold
+                .ToList();  // Convert to a list for easy display
+
+            if (unsoldProperties.Count == 0)
+            {
+                Console.WriteLine("All properties have been sold!");
+            }
+            else
+            {
+                Console.WriteLine("The following properties are still unsold:");
+                foreach (var property in unsoldProperties)
+                {
+                    Console.WriteLine($"- {property.Name} ({property.Type})");
+                }
+            }
+        }
+
     }
 }

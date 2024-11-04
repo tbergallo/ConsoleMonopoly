@@ -26,7 +26,7 @@ namespace ConsoleMonopolyAutomate.Players
                     Console.WriteLine($"Player {Player_number} passed through GO and received $200.");
                     this.ThroughGo += 1;
                 }
-                position = value % 36;
+                position = value % 37;
             }
         }
         public int Money { get; set; }
